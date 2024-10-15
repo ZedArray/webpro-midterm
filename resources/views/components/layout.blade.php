@@ -14,11 +14,12 @@
 
 <body class="h-full">
 <div class="min-h-full">
-    <x-navbar></x-navbar>
+    {{-- <x-navbar></x-navbar> --}}
+    <x-sidebar></x-sidebar>
   
-    <x-header> {{ $title }}</x-header>
+    {{-- <x-header> {{ $title }}</x-header> --}}
 
-    <main>
+    <main class="flex-1 ml-64">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {{ $slot }}
       </div>
