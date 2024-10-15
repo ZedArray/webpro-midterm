@@ -111,7 +111,7 @@
                                         <!-- Dropdown Actions for Edit/Delete -->
                                         <div id="expense-{{ $expense->id }}-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                             <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="expense-{{ $expense->id }}-dropdown-button">
-                                                <li><a href="/expenses/{{ $expense->id }}/edit" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a></li>
+                                                <li><button class="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="showEditModal('{{ $expense->id }}', '{{ $expense->description }}', '{{ $expense->amount }}', '{{ $expense->category }}', '{{ $expense->date }}')">Edit</button></li>
                                                 <li>
                                                     <form action="/expenses/{{ $expense->id }}" method="POST">
                                                         @csrf
@@ -135,7 +135,56 @@
         </div>
     </section>
 
-    {{-- Script to show/hide modal --}}
+    <!-- Edit Expense Modal -->
+    <div id="editExpenseModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <!-- Modal content -->
+            <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white dark:bg-gray-800 p-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Edit Expense</h3>
+                    <form action="" method="POST" class="mt-4" id="editExpenseForm">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-4">
+                            <label for="edit-description" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Description</label>
+                            <input type="text" name="description" id="edit-description" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="edit-amount" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Amount</label>
+                            <input type="number" name="amount" id="edit-amount" step="0.01" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="edit-category" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Category</label>
+                            <input type="text" name="category" id="edit-category" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="edit-date" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Date</label>
+                            <input type="date" name="date" id="edit-date" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                        </div>
+
+                        <div class="mt-5 sm:mt-6">
+                            <button type="submit" class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:text-sm">
+                                Update Expense
+                            </button>
+                            <button type="button" id="cancelEditModalBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 dark:text-gray-400 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 sm:mt-0 sm:w-auto sm:text-sm">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Edit Expense Modal -->
+
+    {{-- Script to handle Add Expense modal --}}
     <script>
         const addExpenseBtn = document.getElementById('addExpenseBtn');
         const addExpenseModal = document.getElementById('addExpenseModal');
@@ -149,6 +198,29 @@
         // Hide the modal when Cancel button is clicked
         cancelModalBtn.addEventListener('click', () => {
             addExpenseModal.classList.add('hidden');
+        });
+
+        // Show edit modal
+        function showEditModal(id, description, amount, category, date) {
+            const editExpenseModal = document.getElementById('editExpenseModal');
+            const editForm = document.getElementById('editExpenseForm');
+
+            // Set form action URL dynamically
+            editForm.action = `/expenses/${id}`;
+
+            // Fill input values with existing data
+            document.getElementById('edit-description').value = description;
+            document.getElementById('edit-amount').value = amount;
+            document.getElementById('edit-category').value = category;
+            document.getElementById('edit-date').value = date;
+
+            // Show modal
+            editExpenseModal.classList.remove('hidden');
+        }
+
+        // Hide edit modal
+        document.getElementById('cancelEditModalBtn').addEventListener('click', () => {
+            document.getElementById('editExpenseModal').classList.add('hidden');
         });
     </script>
 </x-layout>
