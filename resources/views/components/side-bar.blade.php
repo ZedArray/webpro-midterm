@@ -8,7 +8,7 @@
 <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
     <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         
-        <div class="flex flex-col items-center pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
+        {{-- <div class="flex flex-col items-center pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
             <div class="w-20 h-20 overflow-hidden rounded-full">
                 <img class="w-full h-full object-cover" src="img/ambatron.jpg" alt="User Profile Picture">
             </div>
@@ -18,9 +18,33 @@
                 <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
                     </svg>
-                Logout
+                Logout hover:
+            </button>
+        </div> --}}
+
+        <div class="flex flex-col items-center pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="w-20 h-20 overflow-hidden rounded-full">
+                <img class="w-full h-full object-cover" src="img/ambatron.jpg" alt="User Profile Picture">
+            </div>
+            <h3 class="mt-3 text-xl font-semibold text-gray-900 dark:text-white">Mas Amba</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400">name@company.com</p>
+            <button class="mt-3 w-full flex items-center justify-center px-4 py-2 text-base font-medium text-gray-900 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 logout-btn">
+                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                    <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+                </svg>
+                <span class="button-text">Logout</span>
             </button>
         </div>
+        
+        <style>
+        .logout-btn:hover .button-text::before {
+            content: "Coming soon";
+        }
+        .logout-btn .button-text::before {
+            content: "Logout";
+        }
+        </style>
+        
 
         <ul class="space-y-2">
             <li>
