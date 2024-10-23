@@ -22,7 +22,16 @@ class ExpenseController extends Controller
 
     public function showExpenses() {
         $expenses = Expense::all();
-        return view('expense', ['title' => 'All Expenses', 'expenses' => $expenses]);
+        $new = [];
+        foreach ($expenses as $expense) {
+            if ($expense->description == "aaa"){
+                continue;
+            }
+            else {
+                array_push($new, $expense);
+            }
+        }
+        return view('expense', ['title' => 'All Expenses', 'expenses' => $new]);
     }
 
     public function store(Request $request) {
