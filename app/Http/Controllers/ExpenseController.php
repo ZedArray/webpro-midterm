@@ -20,17 +20,19 @@ class ExpenseController extends Controller
         ]);
     }
 
-    public function showExpenses() {
+    public function showExpenses(Request $request) {
         $expenses = Expense::all();
+
         $new = [];
+        $search = $request->query('search');
+        print($search);
+
         foreach ($expenses as $expense) {
-            if ($expense->description == "aaa"){
-                continue;
-            }
-            else {
+            if (str_contains($expense->description, $search)){
                 array_push($new, $expense);
             }
         }
+
         return view('expense', ['title' => 'All Expenses', 'expenses' => $new]);
     }
 
