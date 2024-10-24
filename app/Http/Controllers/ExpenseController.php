@@ -9,7 +9,7 @@ class ExpenseController extends Controller
 {
     public function index() {
         $monthlyExpense = Expense::where('date', '>=', now()->subDays(30))->sum('amount');
-        $recentExpenses = Expense::latest()->take(8)->get();
+        $recentExpenses = Expense::all()->sortByDesc('date')->take(8);
         $monthlyIncome = 1000000;
 
         return view('dashboard', [
@@ -21,19 +21,10 @@ class ExpenseController extends Controller
     }
 
     public function showExpenses(Request $request) {
-        $expenses = Expense::all();
-
-        $new = [];
         $search = $request->query('search');
-        print($search);
-
-        foreach ($expenses as $expense) {
-            if (str_contains($expense->description, $search)){
-                array_push($new, $expense);
-            }
-        }
-
-        return view('expense', ['title' => 'All Expenses', 'expenses' => $new]);
+        $expenses = Expense::where('description', 'like', '%' . $search . '%')->get();
+        
+        return view('expense', ['title' => 'All Expenses', 'expenses' => $expenses]);
     }
 
     public function store(Request $request) {
