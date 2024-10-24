@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
+
     public function index() {
-        $monthlyExpense = Expense::where('date', '>=', now()->subDays(30))->sum('amount');
-        $recentExpenses = Expense::all()->sortByDesc('date')->take(8);
+        $monthlyExpense = Expense::where('user_id', 'like', Auth::user()->id)->where('date', '>=', now()->subDays(30))->sum('amount');
+        $recentExpenses = Expense::latest()->where('user_id', 'like', Auth::user()->id)->take(8)->get();
         $monthlyIncome = 1000000;
 
         return view('dashboard', [
@@ -17,18 +19,20 @@ class ExpenseController extends Controller
             'monthlyExpense' => $monthlyExpense,
             'recentExpenses' => $recentExpenses,
             'monthlyIncome' => $monthlyIncome,
+            'balls' => 'big ones',
         ]);
     }
 
     public function showExpenses(Request $request) {
         $search = $request->query('search');
-        $expenses = Expense::where('description', 'like', '%' . $search . '%')->get();
-        
+        $expenses = Expense::where('description', 'like', '%' . $search . '%')->where('user_id', 'like', Auth::user()->id)->latest()->paginate(10);
+
         return view('expense', ['title' => 'All Expenses', 'expenses' => $expenses]);
     }
 
     public function store(Request $request) {
         $expense = new Expense();
+        $expense->user_id = Auth::user() -> id;
         $expense->amount = $request->input('amount');
         $expense->description = $request->input('description');
         $expense->category = $request->input('category');

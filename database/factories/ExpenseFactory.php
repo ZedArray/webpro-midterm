@@ -27,6 +27,7 @@ class ExpenseFactory extends Factory
         }
 
         return [
+            'user_id' => $this->faker->numberBetween(1,2),
             'amount' => $this->faker->randomFloat(0, 10000, 500000), // Random amount between 5 and 1000
             'description' => $this->faker->sentence(3), // Random description
             'category' => $this->faker->randomElement(['Food', 'Transport', 'Entertainment', 'Shopping']),
