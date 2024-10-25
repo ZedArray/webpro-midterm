@@ -19,8 +19,8 @@
   
     {{-- <x-header> {{ $title }}</x-header> --}}
 
-    <main class="flex-1 ml-64">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <main class="flex-1">
+      <div class="ml-64 mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         {{ $slot }}
       </div>
     </main>
